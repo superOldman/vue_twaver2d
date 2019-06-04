@@ -1,8 +1,8 @@
 <script>
-import AlarmMappingDemo from './demo'
+// import AlarmMappingDemo from './demo'
 export default {
-    methods(){
-        AlarmMappingDemo.init()
+    methods:{
+        // AlarmMappingDemo.init()
     }
 }
 </script>

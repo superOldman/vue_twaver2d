@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import navLeft from './components/navLeft/navLeft';
 import mainRouterTittle from './components/mainRouterTittle/mainRouterTittle';
 
-console.log(navLeft)
 Vue.component('navLeft',navLeft);
 Vue.component('mainRouterTittle',mainRouterTittle);
 Vue.use(ElementUI);

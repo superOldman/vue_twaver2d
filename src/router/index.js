@@ -29,9 +29,10 @@ export default new Router({
       component: () => import('../view/home.vue'),
       name: 'netWork',
       iconCls: 'el-icon-menu', // 图标样式class
-      leaf:true,
+      // leaf:true,
       children: [
-        { path: '/network', component: () => import('../view/network/main.vue'), name: 'network' }
+        { path: '/main', component: () => import('../view/network/main.vue'), name: 'main' },
+        { path: '/rewriteGridUI_borderColor', component: () => import('../view/network/rewriteGridUI_borderColor.vue'), name: 'rewriteGridUI_borderColor' }
       ]
     },
 

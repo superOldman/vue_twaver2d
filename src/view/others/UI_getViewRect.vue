@@ -5,46 +5,54 @@
 </template>
 
 <script>
+class GetViewRect {
+  constructor(container) {
+    this.box = new twaver.ElementBox();
+    this.network = new twaver.vector.Network(this.box);
+    this.container = document.getElementById(container);
+  }
+  init() {
+    this.initData();
+    this.initNetwork();
+  }
+  initNetwork() {
+    this.view = this.network.getView();
+    this.network.adjustBounds({ x: 100, y: 100, width: 200, height: 200 });
+    this.container.appendChild(this.view);
+
+    //getViewRect 目前只能在 过一会之后。。才能拿到 (用setTimeout解决)
+    let node2Ui = this.network.getElementUI(this.node2);
+    console.log(node2Ui.getViewRect());//null
+    let that = this;
+    setTimeout(function() {
+      console.log(node2Ui.getViewRect());//{}
+      that.network.makeVisible(that.node2);
+    }, 100);
+  }
+  initData() {
+    let node1 = new twaver.Node({
+      name: "from",
+      location: { x: 100, y: 100 }
+    });
+    this.box.add(node1);
+
+    this.node2 = new twaver.Node({
+      name: "to",
+      location: { x: 300, y: 100 }
+    });
+    this.box.add(this.node2);
+    let link = new twaver.Link(node1, this.node2);
+    this.box.add(link);
+  }
+}
 export default {
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      var box = new twaver.ElementBox();
-      var network = new twaver.vector.Network(box);
-
-      function initNetwork() {
-        var view = network.getView();
-        network.adjustBounds({ x: 0, y: 20, width: 200, height: 200 });
-
-        document.getElementById("network").appendChild(view);
-
-        setTimeout(function() {
-          console.log(network.getElementUI(node2).getViewRect());
-          network.makeVisible(node2);
-        });
-      }
-      var node2;
-      function initData() {
-        var node1 = new twaver.Node({
-          name: "from",
-          location: { x: 100, y: 100 }
-        });
-        box.add(node1);
-
-
-        node2 = new twaver.Node({
-          name: "to",
-          location: { x: 300, y: 100 }
-        });
-        box.add(node2);
-        var link = new twaver.Link(node1, node2);
-        box.add(link);
-      }
-
-      initData();
-      initNetwork();
+      let getViewRect = new GetViewRect("network");
+      getViewRect.init();
     }
   }
 };

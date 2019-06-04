@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { constants } from 'fs';
 
 export default {
   mounted() {
@@ -29,8 +30,8 @@ export default {
       };
 
       // 可能由于生命周期问题 使用 string 格式继承会导致找不到该对象
-      console.log(_twaver.getClass('PathAnimationDemo'));
-      twaver.Util.ext('PathAnimationDemo', Object, {
+      // console.log(_twaver.getClass('PathAnimationDemo'));
+      twaver.Util.ext(PathAnimationDemo, Object, {
         init: function() {
           this.registImages();
           var main = document.getElementById("main");
@@ -54,9 +55,10 @@ export default {
           this.network.adjustBounds({ x: 0, y: 0, width: 1200, height: 800 });
         },
         registImages: function() {
-          this.registerImage("../images/pathAnimation/car.png");
+          this.registerImage("../../static/images/car.png");
         },
         registerImage: function(url) {
+          console.log(url)
           twaver.Util.registerImage(url, this.network);
         },
         tick: function() {
