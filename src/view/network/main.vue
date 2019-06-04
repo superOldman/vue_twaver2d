@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { constants } from 'fs';
-
 export default {
   mounted() {
     this.init();
