@@ -19,19 +19,19 @@ function MyGridUI(network, element) {
 }
 twaver.Util.ext(MyGridUI, twaver.vector.GridUI, {
   drawGridBody: function(ctx) {
-    var fill = this.getStyle("grid.fill");
-    var gridDeep = this.getStyle("grid.deep");
-    var cellDeep = this.getStyle("grid.cell.deep");
-
+    let fill = this.getStyle("grid.fill");
+    let gridDeep = this.getStyle("grid.deep");
+    let cellDeep = this.getStyle("grid.cell.deep");
     if (!fill && gridDeep === 0 && cellDeep === 0) {
-      var row = this.getStyle("grid.row.count");
-      var col = this.getStyle("grid.column.count");
-      var ele = this.getElement();
-      var gridBorderColor = ele.getClient("grid.border.color");
-      for (var r = 0; r < row; r++) {
-        for (var c = 0; c < col; c++) {
-          var rect = this._getZoomCellRect(r, c); //this._element.getCellRect(r, c);
+      let row = this.getStyle("grid.row.count");
+      let col = this.getStyle("grid.column.count");
+      let ele = this.getElement();
+      let gridBorderColor = ele.getClient("grid.border.color");
+      for (let r = 0; r < row; r++) {
+        for (let c = 0; c < col; c++) {
+          let rect = this._getZoomCellRect(r, c); //this._element.getCellRect(r, c);
           if (rect != null) {
+            // ctx.globalCompositeOperation = 'destination-over'
             ctx.beginPath();
             drowRect(
               ctx,
@@ -40,24 +40,13 @@ twaver.Util.ext(MyGridUI, twaver.vector.GridUI, {
               rect.width,
               rect.height,
               gridBorderColor
+              // "rgba('13,"+(5+r*c)+",21,1')"
             );
+             
             function drowRect(g, x, y, width, height, gridBorderColor) {
               g.strokeStyle = gridBorderColor;
               g.beginPath();
-              g.moveTo(x, y);
-              g.lineTo(x, y + height);
-              g.moveTo(x, y);
-              g.lineTo(x + width, y);
-              g.closePath();
-              g.stroke();
-
-              g.beginPath();
-              g.moveTo(x, y + height);
-              g.lineTo(x + width, y + height);
-              g.moveTo(x + width, y);
-              g.lineTo(x + width, y + height);
-              g.closePath();
-              g.stroke();
+              g.strokeRect(x, y, width, height);
             }
             ctx.closePath();
           }
@@ -78,6 +67,7 @@ class GridUI_test {
   }
   init() {
     this.initNetwork();
+    this.createPane();
     this.initData();
   }
   initNetwork() {
@@ -91,8 +81,8 @@ class GridUI_test {
     grid.s("grid.border", 0);
     grid.s("grid.padding", 0);
     grid.s("grid.padding", 0);
-    grid.s("grid.column.count", 2);
-    grid.s("grid.row.count", 5);
+    grid.s("grid.column.count", 10);
+    grid.s("grid.row.count", 10);
     grid.setSize(300, 200);
     grid.setLocation(20, 30);
 
@@ -103,9 +93,65 @@ class GridUI_test {
     //不填充
     grid.s("grid.fill", false);
     //设置自定义颜色
-    grid.setClient("grid.border.color", "blue");
+    grid.setClient("grid.border.color", 'rgba(51,204, 255,0.5)');
 
     this.box.add(grid);
+  }
+  createPane() {
+    let toolbar = this.initToolbar();
+    let pane = new twaver.controls.BorderPane(
+      this.network,
+      toolbar,
+      null,
+      null,
+      null
+    );
+    pane.setTopHeight(25);
+    pane.setLeftWidth(250);
+    let view = pane.getView();
+    view.style.left = "0px";
+    view.style.top = "0px";
+    view.style.right = "0px";
+    view.style.bottom = "0px";
+    this.container.appendChild(view);
+    window.onresize = function() {
+      pane.invalidate();
+    };
+  }
+  initToolbar() {
+    let toolbar = document.createElement("div");
+
+    let that = this;
+    this.addButton(toolbar, "Zoom In", function() {
+      that.network.zoomIn();
+    });
+    this.addButton(toolbar, "Zoom Out", function() {
+      that.network.zoomOut();
+    });
+    this.addButton(toolbar, "Zoom Overview", function() {
+      that.network.zoomOverview();
+    });
+    this.addButton(toolbar, "Zoom Reset", function() {
+      that.network.zoomReset();
+    });
+    this.addButton(toolbar, "setColor", function() {
+      that.box.getDatas().forEach(element => {
+        if (element instanceof MyGrid) {
+          console.log("set border color => red");
+          element.setClient("grid.border.color", "red");
+        }
+      });
+    });
+
+    return toolbar;
+  }
+
+  addButton(toolbar, label, handler) {
+    let button = document.createElement("input");
+    button.type = "button";
+    button.value = label;
+    button.onclick = handler;
+    toolbar.appendChild(button);
   }
 }
 export default {

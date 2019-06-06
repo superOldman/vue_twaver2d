@@ -45,6 +45,7 @@ class GetViewRect {
     this.box.add(link);
   }
 }
+
 export default {
   mounted() {
     this.init();

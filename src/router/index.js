@@ -27,12 +27,13 @@ export default new Router({
     {
       path: '/',
       component: () => import('../view/home.vue'),
-      name: 'netWork',
+      name: 'network',
       iconCls: 'el-icon-menu', // 图标样式class
       // leaf:true,
       children: [
         { path: '/main', component: () => import('../view/network/main.vue'), name: 'main' },
-        { path: '/rewriteGridUI_borderColor', component: () => import('../view/network/rewriteGridUI_borderColor.vue'), name: 'rewriteGridUI_borderColor' }
+        { path: '/rewriteGridUI_borderColor', component: () => import('../view/network/rewriteGridUI_borderColor.vue'), name: 'Grid边框颜色' },
+        { path: '/shapeNode_link', component: () => import('../view/network/shapeNode_link.vue'), name: '只有线shapeNode' }
       ]
     },
 
@@ -42,7 +43,7 @@ export default new Router({
       name: 'tree',
       iconCls: 'el-icon-guide',
       children: [
-        { path: '/tree_expand', component: () => import('../view/tree/tree_expand.vue'), name: 'tree_expand' }
+        { path: '/tree_expand', component: () => import('../view/tree/tree_expand.vue'), name: 'tree异步加载节点' }
       ]
     },
 
