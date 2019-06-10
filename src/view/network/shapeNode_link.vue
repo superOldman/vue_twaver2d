@@ -17,10 +17,16 @@ class ShapeNodeLink {
   }
   initData() {
     //预设设线的点
-    let points = new twaver.List([{ x: 10, y: 10 }, { x: 206, y: 205 }]);
+    let points = new twaver.List([{ x: 10, y: 10 }, { x: 206, y: 205 },{x:204,y:303}]);
     let shapeNode = new twaver.ShapeNode();
 
     shapeNode.setPoints(points);
+    shapeNode.setSegments(new twaver.List(
+        ['moveto',
+        'lineto',
+        'quadto'
+        ]
+    ));
     shapeNode
       .setStyle("vector.outline.color", "#333333")
       .setStyle("vector.outline.width", 1)

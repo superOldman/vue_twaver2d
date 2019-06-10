@@ -33,7 +33,8 @@ export default new Router({
       children: [
         { path: '/main', component: () => import('../view/network/main.vue'), name: 'main' },
         { path: '/rewriteGridUI_borderColor', component: () => import('../view/network/rewriteGridUI_borderColor.vue'), name: 'Grid边框颜色' },
-        { path: '/shapeNode_link', component: () => import('../view/network/shapeNode_link.vue'), name: '只有线shapeNode' }
+        { path: '/shapeNode_link', component: () => import('../view/network/shapeNode_link.vue'), name: '只有线shapeNode' },
+        { path: '/layerTopBottom', component: () => import('../view/network/layerTopBottom.vue'), name: '利用图层改group上线的bug' }
       ]
     },
 
