@@ -12,24 +12,20 @@ class ExpandAync {
     this.network = new twaver.vector.Network(this.box);
     this.tree = new twaver.controls.Tree(this.box);
     this.container = document.getElementById(container);
+
+    // 从tree上取消联动
+    this.tree._handlePressSelection = function(){}
   }
   init() {
     this.initBox();
     this.initNetwork();
   }
   initBox() {
-    //注册图片
-    this.registerNormalImage(
-      "../../static/images/barBottomright.png",
-      "twaver"
-    );
-
     let from = new twaver.Group();
     from.setName("From");
     //设定tree
     from.setClient("hasChild", true);
     from.setLocation(100, 100);
-    from.setIcon("twaver");
     this.box.add(from);
 
     //使用subNetwork 分层  该分层展开使用  network.setCurrentSubNetwork(server1)
@@ -48,6 +44,9 @@ class ExpandAync {
     to.setName("To");
     to.setLocation(300, 300);
     to.setClient("hasChild", true);
+    // to.setIcon('')
+
+
     this.box.add(to);
 
     let link = new twaver.Link(from, to);
@@ -142,16 +141,6 @@ class ExpandAync {
       network.zoomReset();
     });
     return toolbar;
-  }
-  //注册图片方法
-  registerNormalImage(url, name) {
-    var image = new Image();
-    image.src = url;
-    image.onload = () => {
-      twaver.Util.registerImage(name, image, image.width, image.height);
-      image.onload = null;
-      this.network.invalidateElementUIs();
-    };
   }
 
   addButton(toolbar, label, handler) {

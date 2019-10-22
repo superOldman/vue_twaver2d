@@ -1,6 +1,6 @@
 <template>
   <div class="warp">
-    <div id="network" ref='qqq'></div>
+    <div id="network"></div>
   </div>
 </template>
 
@@ -60,13 +60,11 @@ twaver.Util.ext(MyGridUI, twaver.vector.GridUI, {
 });
 
 class GridUI_test {
-  constructor(container,c) {
+  constructor(container) {
     this.box = new twaver.ElementBox();
     this.network = new twaver.vector.Network(this.box);
     this.container = document.getElementById(container);
     //  console.log(this.box)
-
-    this.c = c
     this.box.getDatas().forEach(function(data) {
       console.log(data);
 
@@ -82,30 +80,28 @@ class GridUI_test {
   }
   initNetwork() {
     this.view = this.network.getView();
-
-    console.log(this.container.clientWidth);
-     console.log(document.getElementById('network').clientWidth)
-
-     console.log(this.c)
-
-    this.network.adjustBounds({ x: 0, y: 20, width: this.container.clientWidth, height: this.container.clientHeight });
+    this.network.adjustBounds({ x: 0, y: 20, width: 1300, height: 600 });
     this.container.appendChild(this.view);
-    // this.network this.network.getToolTip
-    this.network.getToolTip = function(element){
-      if(element instanceof twaver.Grid){
-        return false
-      }else{
-      return element.getName()
+
+    //重写tooltip
+    this.network.getToolTip = function(element) {
+      // 判断不显示的元素
+      if (element instanceof twaver.Grid) {
+        return false;
+      } else {
+        // 默认显示名字 也可以重写该部分
+        return element.getName();
       }
-    }
+    };
   }
   initData() {
     let node = new twaver.Node();
-    node.setName("321313");
+    node.setName("我要显示tooltip");
+    node.setLocation(300,300)
     this.box.add(node);
-node.setVisible(false)
+
     let grid = new MyGrid();
-    grid.setName("Grid");
+    grid.setName("我不显示tooltip");
     grid.s("grid.border", 0);
     grid.s("grid.padding", 0);
     grid.s("grid.padding", 0);
@@ -188,8 +184,7 @@ export default {
   },
   methods: {
     init() {
-      var c = this.$refs.qqq;
-      let g = new GridUI_test("network",c);
+      let g = new GridUI_test("network");
       g.init();
     }
   }

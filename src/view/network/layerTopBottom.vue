@@ -12,9 +12,10 @@ class LayerDemo {
     this.network = new twaver.vector.Network(this.box);
     this.layerBox = this.box.getLayerBox();
     this.layer1 = new twaver.Layer("layer1");
-    this.layer2 = new twaver.Layer("layer2");
+    // this.layer2 = new twaver.Layer("layer2");
     this.layerBox.add(this.layer1);
-    this.layerBox.add(this.layer2);
+    this.layerBox.moveUp(this.layer1)
+    // this.layerBox.add(this.layer2);
   }
   init() {
     this.initNetwork();
@@ -25,14 +26,23 @@ class LayerDemo {
     this.container.appendChild(view);
     this.network.adjustBounds({ x: 0, y: 0, width: 1300, height: 800 });
     twaver.Styles.setStyle("select.color", twaver.Colors.green_light);
-    this.network.setEdgeDetect(true);
+
+    //边缘检测
+    // this.network.setEdgeDetect(true);
+
+    //缩放等级
+    // this.network.setZoom(3)
+    // 监听
+    this.network.addInteractionListener(function(e){
+      console.log(e)
+    })
   }
   initDataBox() {
     let box = this.box;
     let node1 = new twaver.Group();
     node1.setName("Hello");
     node1.setLocation(100, 100);
-    node1.setLayerId("layer2");
+    // node1.setLayerId("layer2");
     box.add(node1);
 
     let node1_1 = new twaver.Node();
@@ -45,7 +55,7 @@ class LayerDemo {
     node1_2.setName("Hello666");
     node1_2.setLocation(100, 10);
     box.add(node1_2);
-    node1_2.setLayerId("layer2");
+    // node1_2.setLayerId("layer2");
 
     node1.addChild(node1_1);
     node1.addChild(node1_2);
@@ -64,7 +74,8 @@ class LayerDemo {
     link.setStyle("arrow.from", true);
     link.setStyle("link.type", "triangle");
     link.setStyle("link.color", twaver.Colors.blue_light);
-    link.setLayerId("layer1");
+    link.setLayerId('layer1')
+    // link.setLayerId("layer1");
     box.add(link);
   }
 }

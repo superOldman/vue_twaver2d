@@ -21,12 +21,11 @@ class ShapeNodeLink {
     let shapeNode = new twaver.ShapeNode();
 
     shapeNode.setPoints(points);
-    shapeNode.setSegments(new twaver.List(
-        ['moveto',
-        'lineto',
-        'quadto'
-        ]
-    ));
+    // shapeNode.setSegments(new twaver.List(
+    //     ['moveto',
+    //     'lineto',
+    //     ]
+    // ));
     shapeNode
       .setStyle("vector.outline.color", "#333333")
       .setStyle("vector.outline.width", 1)
